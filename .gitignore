@@ -1,0 +1,6 @@
+.git
+.idea
+out
+/src/test
+/mainModule.iml
+/target
