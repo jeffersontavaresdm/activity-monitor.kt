@@ -36,7 +36,7 @@ object ColorLayout {
      * button colors
      */
     override fun getPrimaryControl(): ColorUIResource {
-      return ColorUIResource(Color.orange)
+      return ColorUIResource(Color.white)
     }
 
     /**
