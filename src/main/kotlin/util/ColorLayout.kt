@@ -54,7 +54,7 @@ object ColorLayout {
      * window background color
      */
     override fun getControl(): ColorUIResource {
-      return ColorUIResource(Color.black)
+      return ColorUIResource(Color.darkGray)
     }
   }
 }
