@@ -4,5 +4,5 @@ import app.AppBuilder
 import javax.swing.SwingUtilities
 
 fun main() {
-  SwingUtilities.invokeLater { AppBuilder().createApp() }
+  SwingUtilities.invokeLater(::AppBuilder)
 }
