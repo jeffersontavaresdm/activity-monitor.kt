@@ -1,14 +1,14 @@
 package app
 
-import javax.swing.SwingUtilities
+interface ReportData {
 
-class ReportData(private val window: Window) {
+  /**
+   * data of the system
+   */
+  fun reportSystemData()
 
-  fun reportSystemData() {
-    SwingUtilities.invokeLater { this.window.updateSystemData() }
-  }
-
-  fun reportProcesses() {
-    this.window.updateProcesses()
-  }
+  /**
+   * data of the running processes
+   */
+  fun reportProcessData()
 }

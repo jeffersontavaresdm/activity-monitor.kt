@@ -19,7 +19,7 @@ object LocalShell {
         matcher.group(1)
       }.firstOrNull().orEmpty()
 
-    return resultCommandOrNull.ifBlank { null }
+    return resultCommandOrNull.ifEmpty { null }
   }
 
   @Throws(IOException::class)

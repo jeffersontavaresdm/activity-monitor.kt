@@ -1,6 +1,6 @@
-package app
+package handler
 
-import handler.SystemDataHandler
+import dto.SystemDataDTO
 import util.ComponentConfigs
 import util.Converter
 import java.awt.Color
@@ -44,11 +44,11 @@ class SystemDataPanelHandler {
      * update frame panel header
      */
     updateHeadPanel(
-      headerPanel,
-      processesPanel,
-      cpuPanel,
-      memPanel,
-      swapPanel
+      headerPanel = headerPanel,
+      processesPanel = processesPanel,
+      cpuPanel = cpuPanel,
+      memPanel = memPanel,
+      swapPanel = swapPanel
     )
   }
 
@@ -60,10 +60,12 @@ class SystemDataPanelHandler {
     swapPanel: JPanel
   ) {
     headerPanel.removeAll()
+    headerPanel.repaint()
     headerPanel.add(processesPanel)
     headerPanel.add(cpuPanel)
     headerPanel.add(memPanel)
     headerPanel.add(swapPanel)
+    headerPanel.revalidate()
     headerPanel.updateUI()
   }
 

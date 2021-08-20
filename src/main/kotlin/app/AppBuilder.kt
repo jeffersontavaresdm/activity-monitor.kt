@@ -5,7 +5,7 @@ import util.loggerFor
 class AppBuilder {
 
   private val logger = loggerFor()
-  private val systemDataManager = ReportData(Window("ACTIVITY MONITOR"))
+  private val systemDataManager = InvokingData(Window("ACTIVITY MONITOR"))
 
   init {
     systemDataReport()
@@ -28,8 +28,8 @@ class AppBuilder {
     var count = 0
     Thread {
       while (true) {
-        systemDataManager.reportProcesses()
-        Thread.sleep(5000)
+        systemDataManager.reportProcessData()
+        Thread.sleep(3000)
         count++
         logger.info("[PROCESS DATA REPORTED] Times: {}", count)
       }
