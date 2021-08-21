@@ -73,7 +73,7 @@ class Window(title: String?) : JFrame() {
         val matcher = pattern.matcher(line)
         matcher.find()
         matcher.group(1)
-      }.first() ?: "640×480"
+      }.first() ?: "480"
     return value.toInt()
   }
 
