@@ -14,7 +14,7 @@ import javax.swing.*
 class ProcessPanelHandler {
 
   fun updateProcesses(processPane: JPanel) {
-    val processes: List<ProcessDTO> = processes()
+    val processes: List<ProcessDTO> = getProcesses()
     val processCount = processes.size
 
     val pidPanel = generatePanel("PID")
@@ -24,7 +24,7 @@ class ProcessPanelHandler {
     val timePanel = generatePanel("TIME")
     val cmdPanel = generatePanel("CMD")
 
-    processes.forEach(Consumer { process: ProcessDTO ->
+    processes.forEach(Consumer { process ->
       generateLabel(pidPanel, process.pid.toString(), processCount)
       generateLabel(userPanel, process.user, processCount)
       generateLabel(cpuPanel, process.cpu.toString(), processCount)
@@ -51,7 +51,7 @@ class ProcessPanelHandler {
     cpuPanel: JPanel,
     memPanel: JPanel,
     timePanel: JPanel,
-    cmdPanel: JPanel
+    cmdPanel: JPanel,
   ) {
     processPane.removeAll()
     processPane.repaint()
@@ -90,7 +90,7 @@ class ProcessPanelHandler {
     panel.add(label)
   }
 
-  private fun processes(): List<ProcessDTO> {
+  private fun getProcesses(): List<ProcessDTO> {
     val systemProcessHandler = SystemProcessHandler()
     val pids: List<Int> = systemProcessHandler.allPIDs
 
