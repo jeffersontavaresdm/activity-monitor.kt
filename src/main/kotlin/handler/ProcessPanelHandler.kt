@@ -92,7 +92,7 @@ class ProcessPanelHandler {
 
   private fun getProcesses(): List<ProcessDTO> {
     val systemProcessHandler = SystemProcessHandler()
-    val pids: List<Int> = systemProcessHandler.allPIDs
+    val pids: List<Int> = systemProcessHandler.getAllPIDs()
 
     return pids
       .map { pid ->

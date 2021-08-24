@@ -71,7 +71,7 @@ class SystemDataPanelHandler {
 
   private fun getProcessesPanel(systemData: SystemDataDTO, processesPanel: JPanel) {
     val handler = SystemProcessHandler()
-    val allPIDs: List<Int> = handler.allPIDs
+    val allPIDs: List<Int> = handler.getAllPIDs()
     val processCount = allPIDs.size.toLong()
     generateLabel(processesPanel, "tasks: $processCount")
     generateLabel(processesPanel, "running threads: " + systemData.runningThreads)

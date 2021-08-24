@@ -11,22 +11,21 @@ import java.util.regex.Pattern
 
 class SystemProcessHandler {
 
-  val allPIDs: List<Int>
-    get() {
-      val path = Paths.get("/proc")
-      val procDirectory = File(path.toUri())
-      return if (procDirectory.isDirectory) {
-        val procFiles = procDirectory.listFiles() ?: throw RuntimeException("Invalid Proc folder!")
-        Arrays.stream(procFiles)
-          .filter { file: File ->
-            file.isDirectory && file.name.matches(Regex("^\\d*$"))
-          }
-          .map { file: File -> Integer.valueOf(file.name) }
-          .toList()
-      } else {
-        throw RuntimeException("Invalid Proc Folder!")
-      }
+  fun getAllPIDs(): List<Int> {
+    val path = Paths.get("/proc")
+    val procDirectory = File(path.toUri())
+    return if (procDirectory.isDirectory) {
+      val procFiles = procDirectory.listFiles() ?: throw RuntimeException("Invalid Proc folder!")
+      Arrays.stream(procFiles)
+        .filter { file: File ->
+          file.isDirectory && file.name.matches(Regex("^\\d*$"))
+        }
+        .map { file: File -> Integer.valueOf(file.name) }
+        .toList()
+    } else {
+      throw RuntimeException("Invalid Proc Folder!")
     }
+  }
 
   fun getPidUser(pid: Int): String {
     val pattern = Pattern.compile("(^.*)$")
