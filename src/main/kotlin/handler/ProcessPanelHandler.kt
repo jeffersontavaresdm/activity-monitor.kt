@@ -4,6 +4,7 @@ package handler
 
 import dto.ProcessDTO
 import util.ComponentConfigs
+import util.LocalShell
 import java.awt.Color
 import java.awt.Component
 import java.awt.Dimension
@@ -14,9 +15,7 @@ import javax.swing.*
 class ProcessPanelHandler {
 
   fun updateProcesses(processPane: JPanel) {
-    val start = System.currentTimeMillis()
     val processes: List<ProcessDTO> = getProcesses()
-    println("getProcesses took ${System.currentTimeMillis() - start}ms")
     val processCount = processes.size
 
     val pidPanel = generatePanel("PID")
@@ -95,21 +94,26 @@ class ProcessPanelHandler {
   private fun getProcesses(): List<ProcessDTO> {
     val systemProcessHandler = SystemProcessHandler()
     val pids: List<Int> = systemProcessHandler.getAllPIDs()
+    val allProcess = LocalShell.executeCommand("ps aux")
 
-    return pids
+    val result = pids
       .parallelStream()
       .map { pid ->
         ProcessDTO(
           pid = pid,
-          user = systemProcessHandler.getPidUser(pid),
-          cpu = systemProcessHandler.getPidCpu(pid),
-          mem = systemProcessHandler.getPidMem(pid),
-          time = systemProcessHandler.getPidTime(pid),
-          command = systemProcessHandler.getPidCmd(pid)
+          user = systemProcessHandler.getPidUser(pid, allProcess),
+          cpu = systemProcessHandler.getPidCpu(pid, allProcess),
+          mem = systemProcessHandler.getPidMem(pid, allProcess),
+          time = systemProcessHandler.getPidTime(pid, allProcess),
+          command = systemProcessHandler.getPidCmd(pid, allProcess)
         )
       }
       .toList()
       .sortedBy(ProcessDTO::mem)
       .reversed()
+
+    println("")
+
+    return result
   }
 }

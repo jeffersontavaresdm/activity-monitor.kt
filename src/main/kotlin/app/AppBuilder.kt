@@ -19,7 +19,7 @@ class AppBuilder {
         systemDataManager.reportSystemData()
         Thread.sleep(1000)
         count++
-        logger.info("[SYSTEM DATA REPORTED] Times: {}", count)
+        println("\n[SYSTEM DATA REPORTED] Times: {$count}")
       }
     }.start()
   }
@@ -31,7 +31,7 @@ class AppBuilder {
         systemDataManager.reportProcessData()
         Thread.sleep(3000)
         count++
-        logger.info("[PROCESS DATA REPORTED] Times: {}", count)
+        println("\n[PROCESS DATA REPORTED] Times: {$count}")
       }
     }.start()
   }

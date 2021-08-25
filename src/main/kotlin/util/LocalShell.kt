@@ -22,6 +22,19 @@ object LocalShell {
     return resultCommandOrNull.ifEmpty { null }
   }
 
+  fun filterDataProcess(allProcess: String, pattern: Pattern): String? {
+    val resultCommandOrNull: String = allProcess
+      .lines()
+      .filter { line: String -> pattern.matcher(line).matches() }
+      .map { line: String ->
+        val matcher = pattern.matcher(line)
+        matcher.find()
+        matcher.group(1)
+      }.firstOrNull().orEmpty()
+
+    return resultCommandOrNull.ifEmpty { null }
+  }
+
   @Throws(IOException::class)
   fun executeCommand(command: String): String {
     val commands = listOf("/bin/bash", "-c", command)
