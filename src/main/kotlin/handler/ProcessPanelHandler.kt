@@ -14,7 +14,9 @@ import javax.swing.*
 class ProcessPanelHandler {
 
   fun updateProcesses(processPane: JPanel) {
+    val start = System.currentTimeMillis()
     val processes: List<ProcessDTO> = getProcesses()
+    println("getProcesses took ${System.currentTimeMillis() - start}ms")
     val processCount = processes.size
 
     val pidPanel = generatePanel("PID")
@@ -95,6 +97,7 @@ class ProcessPanelHandler {
     val pids: List<Int> = systemProcessHandler.getAllPIDs()
 
     return pids
+      .parallelStream()
       .map { pid ->
         ProcessDTO(
           pid = pid,
@@ -105,8 +108,8 @@ class ProcessPanelHandler {
           command = systemProcessHandler.getPidCmd(pid)
         )
       }
+      .toList()
       .sortedBy(ProcessDTO::mem)
       .reversed()
-      .toList()
   }
 }
