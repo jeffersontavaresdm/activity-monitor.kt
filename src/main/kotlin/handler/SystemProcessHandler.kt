@@ -35,10 +35,7 @@ class SystemProcessHandler {
   fun getPidCpu(pid: Int, allProcesses: String): String {
     val pattern = Pattern.compile("^.*(?<!\\S)$pid(?!\\S)\\s*(\\d*.\\d*).*\$")
 
-    val result = LocalShell.filterDataProcess(allProcesses, pattern) ?: "0.0"
-    result.replaceAfterLast("", ".0")
-
-    return result
+    return LocalShell.filterDataProcess(allProcesses, pattern) ?: "0.0"
   }
 
   fun getPidMem(pid: Int, allProcesses: String): String {

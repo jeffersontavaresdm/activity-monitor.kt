@@ -96,6 +96,8 @@ class ProcessPanelHandler {
     val pids: List<Int> = systemProcessHandler.getAllPIDs()
     val allProcess = LocalShell.executeCommand("ps aux")
 
+    val start = System.currentTimeMillis()
+
     val result = pids
       .parallelStream()
       .map { pid ->
@@ -112,7 +114,7 @@ class ProcessPanelHandler {
       .sortedBy(ProcessDTO::mem)
       .reversed()
 
-    println("")
+    println("\ngetProcesses took ${System.currentTimeMillis() - start}ms")
 
     return result
   }
