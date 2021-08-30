@@ -9,6 +9,7 @@ import java.awt.Color
 import java.awt.Component
 import java.awt.Dimension
 import java.awt.Font
+import java.util.*
 import java.util.function.Consumer
 import javax.swing.*
 
@@ -91,36 +92,70 @@ class ProcessPanelHandler {
     panel.add(label)
   }
 
+  //  private fun getProcesses(): List<ProcessDTO> {
+//    val systemProcessHandler = SystemProcessHandler()
+//    val allProcess = LocalShell.executeCommand("ps aux")
+//    val processCount = countLines(allProcess)
+//
+//    val start = System.currentTimeMillis()
+//
+//    val processList: MutableSet<ProcessDTO> = mutableSetOf()
+//
+//    for (i in 0..processCount) {
+//      val pid: Int? = systemProcessHandler.getPid(i)
+//      if (pid != null) {
+//        processList.add(
+//          ProcessDTO(
+//            pid =,
+//            user = systemProcessHandler.getPidUser(pid, allProcess),
+//            cpu = systemProcessHandler.getPidCpu(pid, allProcess),
+//            mem = systemProcessHandler.getPidMem(pid, allProcess),
+//            time = systemProcessHandler.getPidTime(pid, allProcess),
+//            command = systemProcessHandler.getPidCmd(pid, allProcess),
+//          )
+//        )
+//      }
+//    }
+//
+//    println("\ngetProcesses took ${System.currentTimeMillis() - start}ms")
+//
+//    return processList
+//      .sortedBy(ProcessDTO::mem)
+//      .reversed()
+//  }
+
   private fun getProcesses(): List<ProcessDTO> {
     val systemProcessHandler = SystemProcessHandler()
-    val pids: List<Int> = systemProcessHandler.getAllPIDs()
     val allProcess = LocalShell.executeCommand("ps aux")
 
     val start = System.currentTimeMillis()
 
-    val processList: MutableList<ProcessDTO> = mutableListOf()
+    val processList: MutableSet<ProcessDTO> = mutableSetOf()
 
-    pids.parallelStream()
-      .forEach { _pid ->
-        val pid = systemProcessHandler.getPid(_pid, allProcess)
-        if (pid != null) {
-          processList.add(
-            ProcessDTO(
-              pid = _pid,
-              user = systemProcessHandler.getPidUser(pid, allProcess),
-              cpu = systemProcessHandler.getPidCpu(pid, allProcess),
-              mem = systemProcessHandler.getPidMem(pid, allProcess),
-              time = systemProcessHandler.getPidTime(pid, allProcess),
-              command = systemProcessHandler.getPidCmd(_pid, allProcess),
-            )
-          )
-        }
-      }
+    val tokenizer = StringTokenizer(allProcess, "\n")
+    while (tokenizer.hasMoreTokens()) {
+      val line = tokenizer.nextToken()
+      processList.add(
+        ProcessDTO(
+          pid = systemProcessHandler.getPid(line),
+          user = systemProcessHandler.getPidUser(line),
+          cpu = systemProcessHandler.getPidCpu(line),
+          mem = systemProcessHandler.getPidMem(line),
+          time = systemProcessHandler.getPidTime(line),
+          command = systemProcessHandler.getPidCmd(line),
+        )
+      )
+    }
 
     println("\ngetProcesses took ${System.currentTimeMillis() - start}ms")
 
     return processList
+      .sortedBy(ProcessDTO::cpu)
       .sortedBy(ProcessDTO::mem)
       .reversed()
+  }
+
+  private fun countLines(string: String): Int {
+    return string.split("\r\n|\r|\n".toRegex()).toTypedArray().size
   }
 }
