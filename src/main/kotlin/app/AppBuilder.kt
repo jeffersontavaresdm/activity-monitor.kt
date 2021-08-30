@@ -2,7 +2,7 @@ package app
 
 class AppBuilder {
 
-  private val systemDataManager = InvokingData(Window("ACTIVITY MONITOR"))
+  private val systemDataManager = InvokingData(Window())
 
   init {
     systemDataReport()

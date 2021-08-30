@@ -10,11 +10,15 @@ import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Dimension
 import java.awt.GridLayout
+import java.awt.event.KeyEvent
+import java.awt.event.KeyListener
 import java.util.regex.Pattern
 import javax.swing.*
 import javax.swing.plaf.metal.MetalLookAndFeel
+import kotlin.system.exitProcess
 
-class Window(title: String?) : JFrame() {
+
+class Window : JFrame(), KeyListener {
 
   companion object {
     private val headerPanel = JPanel()
@@ -22,12 +26,12 @@ class Window(title: String?) : JFrame() {
   }
 
   init {
-    this.isUndecorated = true
+    title = "ACTIVITY MONITOR"
+    isUndecorated = true
     getRootPane().windowDecorationStyle = JRootPane.FRAME
-    MetalLookAndFeel.setCurrentTheme(ColorLayout.theme)
-    UIManager.setLookAndFeel(MetalLookAndFeel())
-    SwingUtilities.updateComponentTreeUI(this)
+    defaltColor()
     createWindow(title)
+    addKeyListener(this)
   }
 
   private fun createWindow(title: String?) {
@@ -35,7 +39,7 @@ class Window(title: String?) : JFrame() {
     configSize()
     this.layout = BorderLayout()
     pack()
-    defaultCloseOperation = EXIT_ON_CLOSE
+    defaultCloseOperation = DISPOSE_ON_CLOSE
     this.isVisible = true
 
     headerPanel.border = BorderFactory.createEmptyBorder()
@@ -83,5 +87,57 @@ class Window(title: String?) : JFrame() {
 
   fun updateProcesses() {
     ProcessPanelHandler().updateProcesses(centralPanel)
+  }
+
+  override fun keyTyped(e: KeyEvent?) {}
+
+  override fun keyReleased(e: KeyEvent?) {}
+
+  override fun keyPressed(e: KeyEvent) {
+    when (e.keyCode) {
+      27 -> {
+        dispose()
+        exitProcess(130)
+      }
+      112 -> {
+        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.darkGray).theme)
+        UIManager.setLookAndFeel(MetalLookAndFeel())
+        SwingUtilities.updateComponentTreeUI(this)
+      }
+      113 -> {
+        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.black).theme)
+        UIManager.setLookAndFeel(MetalLookAndFeel())
+        SwingUtilities.updateComponentTreeUI(this)
+      }
+      114 -> {
+        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.blue).theme)
+        UIManager.setLookAndFeel(MetalLookAndFeel())
+        SwingUtilities.updateComponentTreeUI(this)
+      }
+      115 -> {
+        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.red).theme)
+        UIManager.setLookAndFeel(MetalLookAndFeel())
+        SwingUtilities.updateComponentTreeUI(this)
+      }
+      121 -> {
+        val tips = """
+        |Press Button to select color:
+        |
+        |F1: darkGray
+        |F2: black
+        |F3: blue
+        |F4: red
+        |
+        |ESC: exit""".trimMargin()
+        JOptionPane.showMessageDialog(this, tips)
+      }
+    }
+  }
+
+  private fun defaltColor() {
+    val theme = ColorLayout(Color.gray).theme
+    MetalLookAndFeel.setCurrentTheme(theme)
+    UIManager.setLookAndFeel(MetalLookAndFeel())
+    SwingUtilities.updateComponentTreeUI(this)
   }
 }

@@ -4,7 +4,9 @@ import java.awt.Color
 import javax.swing.plaf.ColorUIResource
 import javax.swing.plaf.metal.DefaultMetalTheme
 
-object ColorLayout {
+class ColorLayout(val color: Color) {
+
+
   val theme: DefaultMetalTheme = object : DefaultMetalTheme() {
 
     /**
@@ -54,7 +56,7 @@ object ColorLayout {
      * window background color
      */
     override fun getControl(): ColorUIResource {
-      return ColorUIResource(Color.darkGray)
+      return ColorUIResource(color)
     }
   }
 }
