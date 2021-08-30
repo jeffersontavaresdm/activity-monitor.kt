@@ -135,16 +135,19 @@ class ProcessPanelHandler {
     val tokenizer = StringTokenizer(allProcess, "\n")
     while (tokenizer.hasMoreTokens()) {
       val line = tokenizer.nextToken()
-      processList.add(
-        ProcessDTO(
-          pid = systemProcessHandler.getPid(line),
-          user = systemProcessHandler.getPidUser(line),
-          cpu = systemProcessHandler.getPidCpu(line),
-          mem = systemProcessHandler.getPidMem(line),
-          time = systemProcessHandler.getPidTime(line),
-          command = systemProcessHandler.getPidCmd(line),
+      val pid = systemProcessHandler.getPid(line)
+      if (pid != null) {
+        processList.add(
+          ProcessDTO(
+            pid = pid,
+            user = systemProcessHandler.getPidUser(line),
+            cpu = systemProcessHandler.getPidCpu(line),
+            mem = systemProcessHandler.getPidMem(line),
+            time = systemProcessHandler.getPidTime(line),
+            command = systemProcessHandler.getPidCmd(line),
+          )
         )
-      )
+      }
     }
 
     println("\ngetProcesses took ${System.currentTimeMillis() - start}ms")

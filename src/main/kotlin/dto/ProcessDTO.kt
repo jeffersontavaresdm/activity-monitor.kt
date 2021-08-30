@@ -1,5 +1,7 @@
 package dto
 
+import java.time.LocalTime
+
 data class ProcessDTO(
   val pid: Int,
   val user: String,

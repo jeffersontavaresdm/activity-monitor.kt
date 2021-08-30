@@ -8,6 +8,7 @@ import java.nio.file.Paths
 import java.util.*
 import java.util.regex.Pattern
 
+
 class SystemProcessHandler {
 
   fun getAllPIDs(): List<Int> {
@@ -26,11 +27,11 @@ class SystemProcessHandler {
     }
   }
 
-  fun getPid(process: String): Int {
+  fun getPid(process: String): Int? {
     val pattern = Pattern.compile("^\\w*\\s*(?<!\\S)(\\d*)(?!\\S).*\$")
 
     val result = LocalShell.filterDataProcess(process, pattern)
-    return result?.toInt() ?: 99999999
+    return result?.toInt()
   }
 
   fun getPidUser(process: String): String {
@@ -60,7 +61,7 @@ class SystemProcessHandler {
         "^.*\\s*(?<!\\S)\\d*(?!\\S)\\s*\\d*\\.\\d*\\s*\\d*\\.\\d*\\s*\\d*\\s*\\d*\\s*\\S*\\s*\\S*\\s*\\d*:\\d*\\s*(\\d*:\\d*).*\$"
       )
 
-    return LocalShell.filterDataProcess(process, pattern) ?: "00:00:00"
+    return LocalShell.filterDataProcess(process, pattern) ?: return "00:00"
   }
 
   fun getPidCmd(process: String): String {
