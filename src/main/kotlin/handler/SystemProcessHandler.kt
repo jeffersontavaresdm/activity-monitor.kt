@@ -26,22 +26,31 @@ class SystemProcessHandler {
     }
   }
 
+  fun getPid(pid: Int, allProcesses: String): Int? {
+    val pattern = Pattern.compile("^\\w*\\s*(?<!\\S)($pid)(?!\\S).*\$")
+
+    val result = LocalShell.filterDataProcess(allProcesses, pattern)
+    return result?.toInt()
+  }
+
   fun getPidUser(pid: Int, allProcesses: String): String {
     val pattern = Pattern.compile("^(\\S*)\\s*(?<!\\S)$pid(?!\\S).*\$")
 
     return LocalShell.filterDataProcess(allProcesses, pattern) ?: "unknown"
   }
 
-  fun getPidCpu(pid: Int, allProcesses: String): String {
-    val pattern = Pattern.compile("^.*(?<!\\S)$pid(?!\\S)\\s*(\\d*.\\d*).*\$")
+  fun getPidCpu(pid: Int, allProcesses: String): Double {
+    val pattern = Pattern.compile("^\\w*\\s*(?<!\\S)$pid(?!\\S)\\s*(\\d*\\S\\d*).*\$")
 
-    return LocalShell.filterDataProcess(allProcesses, pattern) ?: "0.0"
+    val result = LocalShell.filterDataProcess(allProcesses, pattern) ?: "99.99"
+    return result.toDouble()
   }
 
-  fun getPidMem(pid: Int, allProcesses: String): String {
-    val pattern = Pattern.compile("^.*(?<!\\S)$pid(?!\\S)\\s*\\d*.\\d*\\s*(\\d*.\\d*).*\$")
+  fun getPidMem(pid: Int, allProcesses: String): Double {
+    val pattern = Pattern.compile("^\\w*\\s*(?<!\\S)$pid(?!\\S)\\s*\\d*\\S\\d*\\s*(\\d*\\S\\d*).*\$")
 
-    return LocalShell.filterDataProcess(allProcesses, pattern) ?: "0.0"
+    val result = LocalShell.filterDataProcess(allProcesses, pattern) ?: "99.99"
+    return result.toDouble()
   }
 
   fun getPidTime(pid: Int, allProcesses: String): String {

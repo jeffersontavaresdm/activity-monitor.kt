@@ -57,7 +57,7 @@ class SystemDataPanelHandler {
     processesPanel: JPanel,
     cpuPanel: JPanel,
     memPanel: JPanel,
-    swapPanel: JPanel
+    swapPanel: JPanel,
   ) {
     headerPanel.removeAll()
     headerPanel.repaint()

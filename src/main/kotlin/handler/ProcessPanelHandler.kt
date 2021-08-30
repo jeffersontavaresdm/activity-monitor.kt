@@ -98,24 +98,29 @@ class ProcessPanelHandler {
 
     val start = System.currentTimeMillis()
 
-    val result = pids
-      .parallelStream()
-      .map { pid ->
-        ProcessDTO(
-          pid = pid,
-          user = systemProcessHandler.getPidUser(pid, allProcess),
-          cpu = systemProcessHandler.getPidCpu(pid, allProcess),
-          mem = systemProcessHandler.getPidMem(pid, allProcess),
-          time = systemProcessHandler.getPidTime(pid, allProcess),
-          command = systemProcessHandler.getPidCmd(pid, allProcess)
-        )
+    val processList: MutableList<ProcessDTO> = mutableListOf()
+
+    pids.parallelStream()
+      .forEach { _pid ->
+        val pid = systemProcessHandler.getPid(_pid, allProcess)
+        if (pid != null) {
+          processList.add(
+            ProcessDTO(
+              pid = _pid,
+              user = systemProcessHandler.getPidUser(pid, allProcess),
+              cpu = systemProcessHandler.getPidCpu(pid, allProcess),
+              mem = systemProcessHandler.getPidMem(pid, allProcess),
+              time = systemProcessHandler.getPidTime(pid, allProcess),
+              command = systemProcessHandler.getPidCmd(_pid, allProcess),
+            )
+          )
+        }
       }
-      .toList()
-      .sortedBy(ProcessDTO::mem)
-      .reversed()
 
     println("\ngetProcesses took ${System.currentTimeMillis() - start}ms")
 
-    return result
+    return processList
+      .sortedBy(ProcessDTO::mem)
+      .reversed()
   }
 }
