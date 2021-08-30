@@ -28,44 +28,46 @@ class SystemProcessHandler {
   }
 
   fun getPid(process: String): Int? {
-    val pattern = Pattern.compile("^\\w*\\s*(?<!\\S)(\\d*)(?!\\S).*\$")
+    val pattern = Pattern.compile("^\\S*\\s*(?<!\\S)(\\d*)(?!\\S).*\$")
 
     val result = LocalShell.filterDataProcess(process, pattern)
     return result?.toInt()
   }
 
-  fun getPidUser(process: String): String {
+  fun getUser(process: String): String {
     val pattern = Pattern.compile("^(\\S*)\\s*(?<!\\S)\\d*(?!\\S).*\$")
 
     return LocalShell.filterDataProcess(process, pattern) ?: "unknown"
   }
 
-  fun getPidCpu(process: String): Double {
-    val pattern = Pattern.compile("^\\w*\\s*(?<!\\S)\\d*(?!\\S)\\s*(\\d*\\.*\\d*)\\s*\\d*\\.\\d*.*\$")
+  fun getCpu(process: String): Double {
+    val pattern = Pattern.compile("^\\S*\\s*(?<!\\S)\\d*(?!\\S)\\s*(\\d*.\\d)\\s*\\d*\\.\\d*\\s*\\d*\\s*.*\$")
 
-    val result = LocalShell.filterDataProcess(process, pattern) ?: "99.99"
-    println(result)
+    val result = LocalShell.filterDataProcess(process, pattern) ?: "0.0"
     return result.toDouble()
   }
 
-  fun getPidMem(process: String): Double {
-    val pattern = Pattern.compile("^\\w*\\s*(?<!\\S)\\S*(?!\\S)\\s*\\d*\\.*\\d*\\s*(\\d*\\.\\d*).*\$")
+  fun getMem(process: String): Double {
+    val pattern = Pattern.compile("^\\S*\\s*(?<!\\S)\\d*(?!\\S)\\s*\\d*.\\d\\s*(\\d*.\\d)\\s*\\d*\\s*\\d*\\s*.*\$")
 
-    val result = LocalShell.filterDataProcess(process, pattern) ?: "99.99"
+    val result = LocalShell.filterDataProcess(process, pattern) ?: "0.0"
     return result.toDouble()
   }
 
-  fun getPidTime(process: String): String {
+  fun getTime(process: String): String {
     val pattern = Pattern
       .compile(
-        "^.*\\s*(?<!\\S)\\d*(?!\\S)\\s*\\d*\\.\\d*\\s*\\d*\\.\\d*\\s*\\d*\\s*\\d*\\s*\\S*\\s*\\S*\\s*\\d*:\\d*\\s*(\\d*:\\d*).*\$"
+        "^\\S*\\s*(?<!\\S)\\d*(?!\\S)\\s*\\d*.\\d\\s*\\d*\\.\\d*\\s*\\d*\\s*\\d*\\s*\\S*\\s*\\S*\\s*\\d*:\\d*\\s*(\\d*:\\d*)\\s*.*\$"
       )
 
     return LocalShell.filterDataProcess(process, pattern) ?: return "00:00"
   }
 
-  fun getPidCmd(process: String): String {
-    val pattern = Pattern.compile("^\\w*\\s*(?<!\\S)\\d*(?!\\S).*\\s[A-Z].*:\\d*\\s\\s*(.*)\$")
+  fun getCmd(process: String): String {
+    val pattern = Pattern
+      .compile(
+        "^\\S*\\s*(?<!\\S)\\d*(?!\\S)\\s*\\d*.\\d\\s*\\d*\\.\\d*\\s*\\d*\\s*\\d*\\s*\\S*\\s*\\S*\\s*\\d*:\\d*\\s*\\d*:\\d*\\s*(.*)\$"
+      )
 
     return LocalShell.filterDataProcess(process, pattern) ?: "unknown"
   }
