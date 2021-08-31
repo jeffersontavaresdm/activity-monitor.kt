@@ -14,7 +14,6 @@ import java.util.regex.Pattern
 import javax.swing.*
 import javax.swing.plaf.metal.MetalLookAndFeel
 
-
 class Window : JFrame() {
 
   companion object {

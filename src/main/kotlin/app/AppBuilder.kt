@@ -22,7 +22,7 @@ class AppBuilder {
     Thread {
       while (true) {
         systemDataManager.reportProcessData()
-        Thread.sleep(5000)
+        Thread.sleep(3000)
       }
     }.start()
   }
