@@ -26,27 +26,26 @@ class Window : JFrame(), KeyListener {
   }
 
   init {
-    title = "ACTIVITY MONITOR"
-    isUndecorated = true
-    getRootPane().windowDecorationStyle = JRootPane.FRAME
-    defaltColor()
-    createWindow(title)
+    createWindow()
     addKeyListener(this)
   }
 
-  private fun createWindow(title: String?) {
-    this.title = title
+  private fun createWindow() {
+    title = "ACTIVITY MONITOR"
     configSize()
-    this.layout = BorderLayout()
+    layout = BorderLayout()
+    isUndecorated = true
+    getRootPane().windowDecorationStyle = JRootPane.FRAME
+    defaltColor()
     pack()
     defaultCloseOperation = DISPOSE_ON_CLOSE
-    this.isVisible = true
+    isVisible = true
 
     headerPanel.border = BorderFactory.createEmptyBorder()
     headerPanel.layout = GridLayout()
     headerPanel.background = Color.darkGray
     val headerScrollPane = JScrollPane(headerPanel)
-    this.contentPane.add(headerScrollPane, BorderLayout.PAGE_START)
+    contentPane.add(headerScrollPane, BorderLayout.PAGE_START)
 
     centralPanel.border = BorderFactory.createEmptyBorder()
     centralPanel.layout = GridLayout()
@@ -54,7 +53,7 @@ class Window : JFrame(), KeyListener {
     val scrollPane = JScrollPane(centralPanel)
     scrollPane.verticalScrollBar.unitIncrement = 30
     scrollPane.horizontalScrollBar.unitIncrement = 30
-    this.contentPane.add(scrollPane, BorderLayout.CENTER)
+    contentPane.add(scrollPane, BorderLayout.CENTER)
   }
 
   private fun configSize() {
