@@ -45,17 +45,20 @@ class WindowKeyListener(private val window: Window) : KeyListener {
       121 -> {
         val tips = """
         |Press Button to select color
-        |F1: darkGray
+        |F1: darkGray (defalt)
         |F2: black
         |F3: blue
-        |F4: gray (defalt)
+        |F4: gray
         |
         |ESC: exit""".trimMargin()
-        val theme = ColorLayout(Color.gray).theme
-        MetalLookAndFeel.setCurrentTheme(theme)
+
+        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.gray).theme)
         UIManager.setLookAndFeel(MetalLookAndFeel())
         SwingUtilities.updateComponentTreeUI(window)
         JOptionPane.showMessageDialog(window, tips)
+        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.darkGray).theme)
+        UIManager.setLookAndFeel(MetalLookAndFeel())
+        SwingUtilities.updateComponentTreeUI(window)
       }
     }
   }

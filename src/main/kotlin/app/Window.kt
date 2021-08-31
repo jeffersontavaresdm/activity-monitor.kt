@@ -86,7 +86,7 @@ class Window : JFrame() {
   }
 
   private fun defaltColor() {
-    val theme = ColorLayout(Color.gray).theme
+    val theme = ColorLayout(Color.darkGray).theme
     MetalLookAndFeel.setCurrentTheme(theme)
     UIManager.setLookAndFeel(MetalLookAndFeel())
     SwingUtilities.updateComponentTreeUI(this)
