@@ -10,35 +10,39 @@ import javax.swing.UIManager
 import javax.swing.plaf.metal.MetalLookAndFeel
 import kotlin.system.exitProcess
 
-class WindowKeyListener(private val window: Window) : KeyListener {
+class WindowKeyListener(
+  private val window: Window,
+  private val colorLayout: ColorLayout,
+) : KeyListener {
 
-  override fun keyTyped(e: KeyEvent?) {}
+  override fun keyTyped(event: KeyEvent?) {}
 
-  override fun keyReleased(e: KeyEvent?) {}
+  override fun keyReleased(event: KeyEvent?) {}
 
   override fun keyPressed(event: KeyEvent) {
+
     when (event.keyCode) {
       27 -> {
         window.dispose()
         exitProcess(130)
       }
       112 -> {
-        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.darkGray).theme)
+        MetalLookAndFeel.setCurrentTheme(colorLayout.changeColor(Color.darkGray).theme)
         UIManager.setLookAndFeel(MetalLookAndFeel())
         SwingUtilities.updateComponentTreeUI(window)
       }
       113 -> {
-        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.black).theme)
+        MetalLookAndFeel.setCurrentTheme(colorLayout.changeColor(Color.black).theme)
         UIManager.setLookAndFeel(MetalLookAndFeel())
         SwingUtilities.updateComponentTreeUI(window)
       }
       114 -> {
-        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.blue).theme)
+        MetalLookAndFeel.setCurrentTheme(colorLayout.changeColor(Color.blue).theme)
         UIManager.setLookAndFeel(MetalLookAndFeel())
         SwingUtilities.updateComponentTreeUI(window)
       }
       115 -> {
-        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.gray).theme)
+        MetalLookAndFeel.setCurrentTheme(colorLayout.changeColor(Color.gray).theme)
         UIManager.setLookAndFeel(MetalLookAndFeel())
         SwingUtilities.updateComponentTreeUI(window)
       }
@@ -52,11 +56,14 @@ class WindowKeyListener(private val window: Window) : KeyListener {
         |
         |ESC: exit""".trimMargin()
 
-        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.gray).theme)
+        MetalLookAndFeel.setCurrentTheme(colorLayout.changeColor(Color.gray).theme)
         UIManager.setLookAndFeel(MetalLookAndFeel())
         SwingUtilities.updateComponentTreeUI(window)
+
         JOptionPane.showMessageDialog(window, tips)
-        MetalLookAndFeel.setCurrentTheme(ColorLayout(Color.darkGray).theme)
+
+        colorLayout.color = Color.darkGray
+        MetalLookAndFeel.setCurrentTheme(colorLayout.changeColor(Color.darkGray).theme)
         UIManager.setLookAndFeel(MetalLookAndFeel())
         SwingUtilities.updateComponentTreeUI(window)
       }

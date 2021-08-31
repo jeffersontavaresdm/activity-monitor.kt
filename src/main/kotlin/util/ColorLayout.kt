@@ -4,8 +4,14 @@ import java.awt.Color
 import javax.swing.plaf.ColorUIResource
 import javax.swing.plaf.metal.DefaultMetalTheme
 
-class ColorLayout(val color: Color) {
+class ColorLayout {
 
+  lateinit var color: Color
+
+  fun changeColor(color: Color): ColorLayout {
+    this.color = color
+    return this
+  }
 
   val theme: DefaultMetalTheme = object : DefaultMetalTheme() {
 

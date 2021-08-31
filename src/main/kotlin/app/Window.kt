@@ -20,11 +20,12 @@ class Window : JFrame() {
   companion object {
     private val headerPanel = JPanel()
     private val centralPanel = JPanel()
+    private val colorLayout = ColorLayout()
   }
 
   init {
     createWindow()
-    addKeyListener(WindowKeyListener(this))
+    addKeyListener(WindowKeyListener(this, colorLayout))
   }
 
   private fun createWindow() {
@@ -86,8 +87,7 @@ class Window : JFrame() {
   }
 
   private fun defaltColor() {
-    val theme = ColorLayout(Color.darkGray).theme
-    MetalLookAndFeel.setCurrentTheme(theme)
+    MetalLookAndFeel.setCurrentTheme(colorLayout.changeColor(Color.darkGray).theme)
     UIManager.setLookAndFeel(MetalLookAndFeel())
     SwingUtilities.updateComponentTreeUI(this)
   }
