@@ -1,5 +1,5 @@
 # Activity Monitor
 
-* activity monitor for Linux using Kotlin
+* activity monitor for Linux
 
 * :)
