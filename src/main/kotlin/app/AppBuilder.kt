@@ -1,13 +1,20 @@
 package app
 
+import util.LocalShell
+import util.loggerFor
+
 class AppBuilder {
 
+  private val logger = loggerFor()
   private val systemDataManager = InvokingData(Window())
 
   init {
+    initMessage()
     systemDataReport()
     processReport()
   }
+
+  private fun initMessage(): Unit = logger.info(LocalShell.executeCommand("neofetch"))
 
   private fun systemDataReport() {
     Thread {
