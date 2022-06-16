@@ -11,7 +11,7 @@ data class SystemDataDTO(
   /**
    * cpu fields
    */
-  val threads: String,
+  val threadsPerCore: Int,
   val availableProcessors: Int,
   val sockets: String,
 

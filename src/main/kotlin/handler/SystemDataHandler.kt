@@ -6,59 +6,62 @@ import java.util.regex.Pattern
 @Suppress("SpellCheckingInspection")
 class SystemDataHandler {
 
-  val threadsPerCore: () -> String = {
-    val pattern = Pattern.compile("^.*:\\s*(.*)")
-    val command = "lscpu | awk 'NR==7'"
-    val result = LocalShell.getCommandResult(pattern, command)
-    result ?: "unknown"
-  }
+  val threadsPerCore: Int
+    get() {
+      val command = "lscpu | awk 'NR==11' | sed 's/ //g' | cut -d: -f2"
+      return LocalShell
+        .getCommandResult(command)
+        .replace("\n", "")
+        .toInt()
+    }
 
   val availableProcessors: Int
     get() {
-      val pattern = Pattern.compile("^.*:\\s*(.*)")
-      val command = "lscpu | awk 'NR==8'"
-      val result = LocalShell.getCommandResult(pattern, command)
-      return result?.toInt() ?: 0
+      val command = "lscpu | awk 'NR==12' | cut -d: -f2 | sed 's/ //g'"
+      return LocalShell
+        .getCommandResult(command)
+        .replace("\n", "")
+        .toInt()
     }
 
   val totalRunningThreads: Int
     get() {
-      val pattern = Pattern.compile("^(\\d*)$")
-      val command = "ps -eo nlwp | tail -n +2 | awk '{ num_threads += $1 } END { print num_threads }'"
-      val result = LocalShell.getCommandResult(pattern, command)
-      return result?.toInt() ?: 0
+      val command = "ps -eo nlwp | tail -n +2 | awk '{ num_threads += $1 } END { print num_threads }' | sed 's/ //g'"
+      return LocalShell
+        .getCommandResult(command)
+        .replace("\n", "")
+        .toInt()
     }
 
-  val totalSystemTime: () -> String = {
-    val pattern = Pattern.compile("^\\s*(.*)$")
-    val command = "ps -o etime= -p 1"
-
-    val result = LocalShell.getCommandResult(pattern, command)
-    result ?: "00:00:00"
-  }
+  val totalSystemTime: String
+    get() {
+      val command = "ps -o etime= 1 | sed 's/ //g'"
+      return LocalShell.getCommandResult(command)
+    }
 
   val totalSockets: String
     get() {
-      val pattern = Pattern.compile("^.*:\\s*(.*)")
-      val command = "lscpu | awk 'NR==9'"
-      val result = LocalShell.getCommandResult(pattern, command)
-      return result ?: "0"
+      val command = "lscpu | awk 'NR==13' | sed 's/ //g' | cut -d: -f 2"
+      return LocalShell.getCommandResult(command)
     }
 
   val freeMem: Long
     get() {
-      val pattern = Pattern.compile("^\\S*\\s*(\\d*).*")
-      val command = "awk 'NR==2' /proc/meminfo"
-      val result = LocalShell.getCommandResult(pattern, command)
-      return result?.let { freeMem -> freeMem.toLong() + availableMem } ?: 0L
+      val command = "awk 'NR==2' /proc/meminfo | sed 's/kB/ /g' | cut -d: -f2 | sed 's/ //g'"
+      return LocalShell
+        .getCommandResult(command)
+        .replace("\n", "")
+        .toLong()
+        .plus(availableMem)
     }
 
   private val availableMem: Long
     get() {
-      val pattern = Pattern.compile("^\\S*\\s*(\\d*).*")
-      val command = "awk 'NR==3' /proc/meminfo"
-      val result = LocalShell.getCommandResult(pattern, command)
-      return result?.toLong() ?: 0L
+      val command = "awk 'NR==3' /proc/meminfo | sed 's/kB/ /g' | cut -d: -f2 | sed 's/ //g'"
+      return LocalShell
+        .getCommandResult(command)
+        .replace("\n", "")
+        .toLong()
     }
 
   val usedMem: Long
@@ -66,18 +69,20 @@ class SystemDataHandler {
 
   val totalMem: Long
     get() {
-      val pattern = Pattern.compile("^\\S*\\s*(\\d*).*")
-      val command = "awk 'NR==1' /proc/meminfo"
-      val result = LocalShell.getCommandResult(pattern, command)
-      return result?.toLong() ?: 0L
+      val command = "awk 'NR==1' /proc/meminfo | sed 's/kB/ /g' | cut -d: -f2 | sed 's/ //g'"
+      return LocalShell
+        .getCommandResult(command)
+        .replace("\n", "")
+        .toLong()
     }
 
   val freeSwap: Long
     get() {
-      val pattern = Pattern.compile("^\\S*\\s*(\\d*).*")
-      val command = "awk 'NR==16' /proc/meminfo"
-      val result = LocalShell.getCommandResult(pattern, command)
-      return result?.toLong() ?: 0L
+      val command = "awk 'NR==16' /proc/meminfo | sed 's/kB/ /g' | cut -d: -f2 | sed 's/ //g'"
+      return LocalShell
+        .getCommandResult(command)
+        .replace("\n", "")
+        .toLong()
     }
 
   val usedSwap: Long
@@ -85,9 +90,10 @@ class SystemDataHandler {
 
   val totalSwap: Long
     get() {
-      val pattern = Pattern.compile("^\\S*\\s*(\\d*).*")
-      val command = "awk 'NR==15' /proc/meminfo"
-      val result = LocalShell.getCommandResult(pattern, command)
-      return result?.toLong() ?: 0L
+      val command = "awk 'NR==15' /proc/meminfo | sed 's/kB/ /g' | cut -d: -f2 | sed 's/ //g'"
+      return LocalShell
+        .getCommandResult(command)
+        .replace("\n", "")
+        .toLong()
     }
 }

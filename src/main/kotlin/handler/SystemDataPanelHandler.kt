@@ -81,7 +81,7 @@ class SystemDataPanelHandler {
   private fun getCpuPanel(systemData: SystemDataDTO, cpuPanel: JPanel) {
     generateLabel(cpuPanel, "sockets: " + systemData.sockets)
     generateLabel(cpuPanel, "cores per socket: " + systemData.availableProcessors)
-    generateLabel(cpuPanel, "threads per core: " + systemData.threads)
+    generateLabel(cpuPanel, "threads per core: " + systemData.threadsPerCore)
   }
 
   private fun getMemPanel(systemData: SystemDataDTO, memPanel: JPanel) {
@@ -125,9 +125,9 @@ class SystemDataPanelHandler {
     val systemInfoHandler = SystemDataHandler()
     return SystemDataDTO(
       runningThreads = systemInfoHandler.totalRunningThreads,
-      totalSystemTime = systemInfoHandler.totalSystemTime(),
+      totalSystemTime = systemInfoHandler.totalSystemTime,
 
-      threads = systemInfoHandler.threadsPerCore(),
+      threadsPerCore = systemInfoHandler.threadsPerCore,
       availableProcessors = systemInfoHandler.availableProcessors,
       sockets = systemInfoHandler.totalSockets,
 
