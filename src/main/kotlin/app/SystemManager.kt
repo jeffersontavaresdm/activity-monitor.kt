@@ -1,15 +1,14 @@
 package app
 
-import app.singleton.WindowSingleton
 import javax.swing.SwingUtilities
 
-class SystemManager {
+object SystemManager {
 
   fun printSystemInfo() {
-    SwingUtilities.invokeLater { WindowSingleton.instance.updateSystemInfo() }
+    SwingUtilities.invokeLater { Window.updateSystemInfo() }
   }
 
   fun printSystemProc() {
-    SwingUtilities.invokeLater { WindowSingleton.instance.updateSystemProc() }
+    SwingUtilities.invokeLater { Window.updateSystemProc() }
   }
 }

@@ -1,7 +1,5 @@
 package app
 
-import app.singleton.SystemManagerSingleton
-
 class AppInitializer {
   init {
     Thread { reportSystemInfo() }.start()
@@ -10,14 +8,14 @@ class AppInitializer {
 
   private fun reportSystemInfo() {
     while (true) {
-      SystemManagerSingleton.instance.printSystemInfo()
+      SystemManager.printSystemInfo()
       Thread.sleep(1000)
     }
   }
 
   private fun reportSystemProc() {
     while (true) {
-      SystemManagerSingleton.instance.printSystemProc()
+      SystemManager.printSystemProc()
       Thread.sleep(3000)
     }
   }

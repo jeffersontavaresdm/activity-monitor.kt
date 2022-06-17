@@ -1,10 +1,9 @@
 package handler
 
 import util.LocalShell
-import java.util.regex.Pattern
 
 @Suppress("SpellCheckingInspection")
-class SystemDataHandler {
+class SystemInfosHandler {
 
   val threadsPerCore: Int
     get() {

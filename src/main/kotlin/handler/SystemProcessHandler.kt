@@ -14,13 +14,13 @@ class SystemProcessHandler {
   fun getAllPIDs(): List<Int> {
     val path = Paths.get("/proc")
     val procDirectory = File(path.toUri())
+
     return if (procDirectory.isDirectory) {
       val procFiles = procDirectory.listFiles() ?: throw RuntimeException("Invalid Proc folder!")
-      Arrays.stream(procFiles)
-        .filter { file: File ->
-          file.isDirectory && file.name.matches(Regex("^\\d*$"))
-        }
-        .map { file: File -> Integer.valueOf(file.name) }
+      Arrays
+        .stream(procFiles)
+        .filter { file -> (file.isDirectory).and(file.name.matches(Regex("^\\d*$"))) }
+        .map { file -> Integer.valueOf(file.name) }
         .toList()
     } else {
       throw RuntimeException("Invalid Proc Folder!")
@@ -64,10 +64,9 @@ class SystemProcessHandler {
   }
 
   fun getCmd(process: String): String {
-    val pattern = Pattern
-      .compile(
-        "^\\S*\\s*(?<!\\S)\\d*(?!\\S)\\s*\\d*.\\d\\s*\\d*\\.\\d*\\s*\\d*\\s*\\d*\\s*\\S*\\s*\\S*\\s*\\d*:\\d*\\s*\\d*:\\d*\\s*(.*)\$"
-      )
+    val pattern = Pattern.compile(
+      "^\\S*\\s*(?<!\\S)\\d*(?!\\S)\\s*\\d*.\\d\\s*\\d*\\.\\d*\\s*\\d*\\s*\\d*\\s*\\S*\\s*\\S*\\s*\\d*:\\d*\\s*\\d*:\\d*\\s*(.*)\$"
+    )
 
     return LocalShell.filterDataProcess(process, pattern) ?: "unknown"
   }

@@ -1,6 +1,6 @@
 package dto
 
-data class SystemDataDTO(
+data class SystemInfosDTO(
 
   /**
    * process fields

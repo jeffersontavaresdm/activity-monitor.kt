@@ -20,7 +20,6 @@ class WindowKeyListener(
   override fun keyReleased(event: KeyEvent?) {}
 
   override fun keyPressed(event: KeyEvent) {
-
     when (event.keyCode) {
       27 -> {
         window.dispose()

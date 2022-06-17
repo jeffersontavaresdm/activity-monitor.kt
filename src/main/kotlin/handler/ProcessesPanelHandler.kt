@@ -92,9 +92,9 @@ class ProcessesPanelHandler {
   private fun getProcesses(): List<ProcessDTO> {
     val systemProcessHandler = SystemProcessHandler()
     val allProcess = LocalShell.executeCommand("ps aux")
-    val processList: MutableSet<ProcessDTO> = mutableSetOf()
-
+    val processList = mutableListOf<ProcessDTO>()
     val processes = StringTokenizer(allProcess, "\n")
+
     while (processes.hasMoreTokens()) {
       val process = processes.nextToken()
       val pid = systemProcessHandler.getPid(process)

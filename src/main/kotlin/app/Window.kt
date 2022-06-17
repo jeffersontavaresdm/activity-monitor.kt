@@ -3,7 +3,7 @@
 package app
 
 import handler.ProcessesPanelHandler
-import handler.SystemDataPanelHandler
+import handler.SystemInfosPanelHandler
 import util.ColorLayout
 import util.LocalShell
 import java.awt.BorderLayout
@@ -14,13 +14,10 @@ import java.util.regex.Pattern
 import javax.swing.*
 import javax.swing.plaf.metal.MetalLookAndFeel
 
-class Window : JFrame() {
-
-  companion object {
-    private val headerPanel = JPanel()
-    private val centralPanel = JPanel()
-    private val colorLayout = ColorLayout()
-  }
+object Window : JFrame() {
+  private val headerPanel = JPanel()
+  private val centralPanel = JPanel()
+  private val colorLayout = ColorLayout()
 
   init {
     createWindow()
@@ -80,7 +77,7 @@ class Window : JFrame() {
   }
 
   fun updateSystemInfo() {
-    SystemDataPanelHandler().updateSystemData(headerPanel)
+    SystemInfosPanelHandler().updateSystemData(headerPanel)
   }
 
   fun updateSystemProc() {
