@@ -1,27 +1,24 @@
 package app
 
+import app.singleton.SystemManagerSingleton
+
 class AppInitializer {
   init {
-    val manager = DataManager()
-    reportSystemInfos(manager)
-    reportSystemProcesses(manager)
+    Thread { reportSystemInfo() }.start()
+    Thread { reportSystemProc() }.start()
   }
 
-  private fun reportSystemInfos(manager: DataManager) {
-    Thread {
-      while (true) {
-        manager.reportSystemData()
-        Thread.sleep(1000)
-      }
-    }.start()
+  private fun reportSystemInfo() {
+    while (true) {
+      SystemManagerSingleton.instance.printSystemInfo()
+      Thread.sleep(1000)
+    }
   }
 
-  private fun reportSystemProcesses(manager: DataManager) {
-    Thread {
-      while (true) {
-        manager.reportProcessData()
-        Thread.sleep(3000)
-      }
-    }.start()
+  private fun reportSystemProc() {
+    while (true) {
+      SystemManagerSingleton.instance.printSystemProc()
+      Thread.sleep(3000)
+    }
   }
 }

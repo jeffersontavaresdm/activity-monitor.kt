@@ -2,7 +2,7 @@
 
 package app
 
-import handler.ProcessPanelHandler
+import handler.ProcessesPanelHandler
 import handler.SystemDataPanelHandler
 import util.ColorLayout
 import util.LocalShell
@@ -73,16 +73,18 @@ class Window : JFrame() {
         val matcher = pattern.matcher(line)
         matcher.find()
         matcher.group(1)
-      }.first() ?: "480"
+      }
+      .first() ?: "480"
+
     return value.toInt()
   }
 
-  fun updateSystemData() {
+  fun updateSystemInfo() {
     SystemDataPanelHandler().updateSystemData(headerPanel)
   }
 
-  fun updateProcesses() {
-    ProcessPanelHandler().updateProcesses(centralPanel)
+  fun updateSystemProc() {
+    ProcessesPanelHandler().updateProcesses(centralPanel)
   }
 
   private fun defaltColor() {

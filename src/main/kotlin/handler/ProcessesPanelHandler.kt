@@ -10,10 +10,9 @@ import java.awt.Component
 import java.awt.Dimension
 import java.awt.Font
 import java.util.*
-import java.util.function.Consumer
 import javax.swing.*
 
-class ProcessPanelHandler {
+class ProcessesPanelHandler {
 
   fun updateProcesses(processPane: JPanel) {
     val processes: List<ProcessDTO> = getProcesses()
@@ -26,14 +25,14 @@ class ProcessPanelHandler {
     val timePanel = generatePanel("TIME")
     val cmdPanel = generatePanel("CMD")
 
-    processes.forEach(Consumer { process ->
+    processes.forEach { process ->
       generateLabel(pidPanel, process.pid.toString(), processCount)
       generateLabel(userPanel, process.user, processCount)
       generateLabel(cpuPanel, process.cpu.toString(), processCount)
       generateLabel(memPanel, process.mem.toString(), processCount)
-      generateLabel(timePanel, process.time.toString(), processCount)
+      generateLabel(timePanel, process.time, processCount)
       generateLabel(cmdPanel, process.command, processCount)
-    })
+    }
 
     updateProcessesPanel(
       processPane = processPane,
