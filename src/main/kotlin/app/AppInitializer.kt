@@ -1,22 +1,23 @@
 package app
 
-class AppInitializer {
-  init {
-    Thread { reportSystemInfo() }.start()
-    Thread { reportSystemProc() }.start()
-  }
+object AppInitializer : Runnable {
 
-  private val reportSystemInfo = {
+  private fun initSystemInfo() {
     while (true) {
       SystemManager.printSystemInfo()
       Thread.sleep(1000)
     }
   }
 
-  private val reportSystemProc = {
+  private fun initSystemProc() {
     while (true) {
       SystemManager.printSystemProc()
       Thread.sleep(3000)
     }
+  }
+
+  override fun run() {
+    Thread { initSystemInfo() }.start()
+    Thread { initSystemProc() }.start()
   }
 }

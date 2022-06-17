@@ -4,5 +4,5 @@ import app.AppInitializer
 import javax.swing.SwingUtilities
 
 fun main() {
-  SwingUtilities.invokeLater(::AppInitializer)
+  SwingUtilities.invokeLater { AppInitializer.run() }
 }
