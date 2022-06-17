@@ -1,3 +1,3 @@
-# Activity Monitor
+# System Monitor
 
-* activity monitor for Linux
+* system monitor for Linux
