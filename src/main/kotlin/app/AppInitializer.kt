@@ -6,14 +6,14 @@ class AppInitializer {
     Thread { reportSystemProc() }.start()
   }
 
-  private fun reportSystemInfo() {
+  private val reportSystemInfo = {
     while (true) {
       SystemManager.printSystemInfo()
       Thread.sleep(1000)
     }
   }
 
-  private fun reportSystemProc() {
+  private val reportSystemProc = {
     while (true) {
       SystemManager.printSystemProc()
       Thread.sleep(3000)
