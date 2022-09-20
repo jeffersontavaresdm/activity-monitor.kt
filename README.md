@@ -1,3 +1,3 @@
 # System Monitor
 
-* system monitor for Linux
+***System monitor for Unix systems***
